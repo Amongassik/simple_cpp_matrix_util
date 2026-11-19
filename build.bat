@@ -9,9 +9,9 @@ echo  Building MatrixLib.dll
 echo ============================================
 
 rem ==== Компиляция ====
-g++ -shared -O2 -std=c++17 -Wall -Wextra ^
-    -static-libgcc -static-libstdc++ ^
-    -o MatrixLib.dll Matrix.cpp MatrixWrapper.cpp
+g++ -shared -O2 -std=c++17 -Wall -Wextra -static -o MatrixLib.dll Matrix.cpp MatrixWrapper.cpp
+if errorlevel 1 ( echo BUILD FAILED & exit /b 1 )
+echo BUILD OK: MatrixLib.dll
 
 if errorlevel 1 (
     echo.
@@ -48,6 +48,8 @@ for %%F in (%REQUIRED_EXPORTS%) do (
         echo [FOUND]   %%F
     )
 )
+
+objdump -p MatrixLib.dll | findstr /C:"DLL Name"
 
 rem ==== Итог ====
 echo.
